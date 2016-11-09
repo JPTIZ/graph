@@ -1,6 +1,22 @@
 '''Defines graph structures.'''
 from random import random
 
+
+def search_transitive_closure(v, visited):
+    '''
+        Searchs for a transitive closure.
+
+        v (Vertex): Reference vertex.
+        visited (set): Already visited vertices.
+    '''
+    visited.add(v)
+    for v_ in v.neighbours:
+        if not v_ in visited:
+            search_transitive_closure(v_, visited)
+
+    return visited
+
+
 class Vertex:
     '''
         A graph's vertex.
@@ -16,6 +32,9 @@ class Vertex:
         return len(self.neighbours)
 
 class Graph:
+    '''
+        The graph itself.
+    '''
     def __init__(self):
         self.vertices = {}
 
@@ -67,8 +86,7 @@ class Graph:
         '''
             Gets a random vertex from the graph.
         '''
-        index = int(random() * (len(self.vertices)-1))
-        return self.vertices[list(self.vertices.keys())[index]]
+        return random.choice(list(self.vertices.values()))
 
     def neighbours(self, key):
         '''
@@ -84,7 +102,7 @@ class Graph:
 
             key (obj): The vertex.
         '''
-        return self.vertices[key].degree() 
+        return self.vertices[key].degree()
 
     # Derived actions
 
@@ -105,9 +123,9 @@ class Graph:
         '''
             Checks if the graph is complete.
         '''
-        for k, v in self.vertices.items():
-            for k_, v_ in self.vertices.items():
-                # verificamos se um vértice i está ligado com todo os outros 
+        for _, v in self.vertices.items():
+            for _, v_ in self.vertices.items():
+                # verificamos se um vértice i está ligado com todo os outros
                 # vértices j
                 if not v_ in v.neighbours and v != v_:
                     return False
@@ -120,26 +138,12 @@ class Graph:
 
             key (obj): Reference vertex.
         '''
-        if type(key) == Vertex:
+        if isinstance(key, Vertex):
             v = key
         else:
             v = self.vertices[key]
         visited = set()
-        return Graph.search_transitive_closure(v, visited)
-
-    def search_transitive_closure(v, visited):
-        '''
-            Searchs for a transitive closure.
-
-            v (Vertex): Reference vertex.
-            visited (set): Already visited vertices.
-        '''
-        visited.add(v)
-        for v_ in v.neighbours:
-            if not v_ in visited:
-                Graph.search_transitive_closure(v_, visited)
-
-        return visited
+        return search_transitive_closure(v, visited)
 
     def connected(self):
         '''
@@ -158,7 +162,7 @@ class Graph:
     def has_cycle(self, v=None, prev=None, visited=None):
         '''
             Check if the graph has a cycle.
-            
+
             v (Vertex): Vertex to be checked against visited set.
                         If None, begins searching recursively for a cycle.
             prev (Vertex): Reference vertex.
@@ -186,4 +190,3 @@ class Graph:
             key (obj): The vertex's key.
         '''
         return self.vertices[key]
-
