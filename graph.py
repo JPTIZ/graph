@@ -1,5 +1,5 @@
 '''Defines graph structures.'''
-from random import random
+import random
 
 
 def search_transitive_closure(v, visited):
