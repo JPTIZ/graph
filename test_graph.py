@@ -1,20 +1,14 @@
-'''Tests if graph structure is working as expected'''
+'''Simple unit tests for the graph module'''
 from graph.graph import Graph
 
 
 def keys(vertices):
-    '''
-        Gets vertices' keys.
-
-        set_ (set): Set of vertices.
-    '''
+    '''Filters a vertice set into a set of keys.'''
     return {v.key for v in vertices}
 
 
 def test_neighbours():
-    '''
-        Tests if the graph is able to link and unlink vertices as neighbours.
-    '''
+    '''Tests if a graph is able to link and unlink vertices as neighbours.'''
     graph = Graph()
     graph.add('Olegário')
     graph.add('Tiz')
@@ -44,9 +38,7 @@ def test_neighbours():
 
 
 def test_regular():
-    '''
-        Tests if the graph is able to link and unlink vertices as neighbours.
-    '''
+    '''Tests if a graph is able to link and unlink vertices as neighbours.'''
     graph = Graph()
 
     graph.add(0)
@@ -64,9 +56,7 @@ def test_regular():
 
 
 def test_complete():
-    '''
-        Tests if the graph is able to recognize when it's complete or not.
-    '''
+    '''Tests if a graph is able to recognize when it's complete or not.'''
     graph = Graph()
 
     graph.add(0)
@@ -95,9 +85,7 @@ def test_complete():
 
 
 def test_transitive_closure():
-    '''
-        Tests if the graph is able to generate transitive closures correctly.
-    '''
+    '''Tests if a graph is able to generate transitive closures correctly.'''
     graph = Graph()
 
     graph.add(0)
@@ -132,9 +120,7 @@ def test_transitive_closure():
 
 
 def test_connected():
-    '''
-        Tests if the graph is able to recognize when it's complete or not.
-    '''
+    '''Tests if a graph is able to recognize when it's complete or not.'''
     graph = Graph()
 
     graph.add(0)
@@ -163,9 +149,7 @@ def test_connected():
 
 
 def test_tree():
-    '''
-        Tests if the graph is able to recognize when it's a tree or not.
-    '''
+    '''Tests if a graph is able to recognize when it's a tree or not.'''
     graph = Graph()
 
     graph.add(0)
