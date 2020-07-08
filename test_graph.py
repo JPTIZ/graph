@@ -1,5 +1,5 @@
 '''Simple unit tests for the graph module'''
-from graph.graph import Graph
+from graph import Graph
 
 
 def keys(vertices):
