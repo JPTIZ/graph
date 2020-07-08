@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "graph"
+version = "0.1.0"
+description = "A simple graph implementation for a CS undergrad bachelor course"
+authors = ["João Paulo Taylor Ienczak Zanette <jpaulotiz@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.4.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
