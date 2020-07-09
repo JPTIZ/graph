@@ -1,31 +1,21 @@
 '''Defines graph structures.'''
 import random
+from typing import Set, TypeVar
 
 
-def search_transitive_closure(v, visited):
-    '''Searchs for a transitive closure.
-
-    Args:
-        v (Vertex): Reference vertex.
-        visited (set): Already visited vertices.
-    '''
-    visited.add(v)
-    for v_ in v.neighbours:
-        if not v_ in visited:
-            search_transitive_closure(v_, visited)
-
-    return visited
+K = TypeVar('K')
 
 
 class Vertex:
     '''A graph's vertex.'''
-    def __init__(self, key):
+    def __init__(self, key: K):
         self.key = key
         self.neighbours = set()
 
-    def degree(self):
+    def degree(self) -> int:
         '''Returns the vertex's degree.'''
         return len(self.neighbours)
+
 
 class Graph:
     '''The graph itself.'''
@@ -34,69 +24,69 @@ class Graph:
 
     # Basic operations
 
-    def add(self, v):
+    def add(self, v: Vertex):
         '''Adds a vertex to the graph.
 
         Args:
-            v (obj): Vertex to be add.
+            v: Vertex to be add.
         '''
         self.vertices[v] = Vertex(v)
 
-    def remove(self, v):
+    def remove(self, v: Vertex):
         '''Removes a vertex from the graph.
 
         Args:
-            v (obj): Vertex to be removed.
+            v: Vertex to be removed.
         '''
         del self.vertices[v]
 
-    def link(self, v1, v2):
+    def link(self, v1: Vertex, v2: Vertex):
         '''Links two vertices by a bidirectional edge.
 
         Args:
-            v1 (obj): First vertex.
-            v2 (obj): Second vertex.
+            v1: First vertex.
+            v2: Second vertex.
         '''
         self.vertices[v1].neighbours.add(self.vertices[v2])
         self.vertices[v2].neighbours.add(self.vertices[v1])
 
-    def unlink(self, v1, v2):
+    def unlink(self, v1: Vertex, v2: Vertex):
         '''Unlinks two vertices.
 
         Args:
-            v1 (obj): First vertex.
-            v2 (obj): Second vertex.
+            v1: First vertex.
+            v2: Second vertex.
         '''
         self.vertices[v1].neighbours.discard(self.vertices[v2])
         self.vertices[v2].neighbours.discard(self.vertices[v1])
 
-    def order(self):
+    def order(self) -> int:
         '''Graph's order.'''
         return len(self.vertices)
 
-    def random_vertex(self):
+    def random_vertex(self) -> Vertex:
         '''Gets a random vertex from the graph.'''
         return random.choice(list(self.vertices.values()))
 
-    def neighbours(self, key):
+    def neighbours(self, key: K) -> Set[Vertex]:
         '''Gets a set with a vertex's neighbours.
 
         Args:
-            key (obj): The vertex.
+            key: The vertex.
         '''
-        return self.vertices[key].neightbours
+        return self.vertices[key].neighbours
 
-    def degree(self, key):
+    def degree(self, key: K) -> int:
         '''Gets a vertex's degree.
 
         Args:
-            key (obj): The vertex.
+            key: The vertex.
         '''
         return self.vertices[key].degree()
 
     # Derived actions
 
-    def regular(self):
+    def regular(self) -> bool:
         '''Checks if the graph is regular.'''
         common_degree = len(self.random_vertex().neighbours)
 
@@ -106,7 +96,7 @@ class Graph:
 
         return True
 
-    def complete(self):
+    def complete(self) -> bool:
         '''Checks if the graph is complete.'''
         for _, v in self.vertices.items():
             for _, other_v in self.vertices.items():
@@ -115,11 +105,11 @@ class Graph:
 
         return True
 
-    def transitive_closure(self, key):
+    def transitive_closure(self, key: K) -> Set[Vertex]:
         '''Gets the transitive closure starting from the given key.
 
         Args:
-            key (obj): Reference vertex.
+            key: Reference vertex.
         '''
         if isinstance(key, Vertex):
             v = key
@@ -128,7 +118,7 @@ class Graph:
         visited = set()
         return search_transitive_closure(v, visited)
 
-    def connected(self):
+    def connected(self) -> bool:
         '''Checks if the graph is connected. An empty graph is considered
         disconnected.'''
         if not self.vertices:
@@ -138,18 +128,21 @@ class Graph:
         values = set(self.vertices.values())
         return len(trans ^ values) == 0
 
-    def tree(self):
+    def tree(self) -> bool:
         '''Checks if the graph is a tree.'''
         return self.connected() and not self.has_cycle()
 
-    def has_cycle(self, v=None, prev=None, visited=None):
+    def has_cycle(self,
+            v: Vertex = None,
+            prev: Vertex = None,
+            visited: Set[Vertex] = None):
         '''Check if the graph has a cycle.
 
         Args:
-            v (Vertex): Vertex to be checked against visited set.
+            v: Vertex to be checked against visited set.
                         If None, begins searching recursively for a cycle.
-            prev (Vertex): Reference vertex.
-            visited (set): Set of already visited vertices.
+            prev: Reference vertex.
+            visited: Set of already visited vertices.
         '''
         if v is None:
             v = self.random_vertex()
@@ -166,10 +159,25 @@ class Graph:
 
     # Extra
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: K) -> Vertex:
         '''Overrides operator [] to get a vertex by a given key.
 
         Args:
-            key (obj): The vertex's key.
+            key: The vertex's key.
         '''
         return self.vertices[key]
+
+
+def search_transitive_closure(v: Vertex, visited: Set[Vertex]) -> Set[Vertex]:
+    '''Searchs for a transitive closure.
+
+    Args:
+        v: Reference vertex.
+        visited: Already visited vertices.
+    '''
+    visited.add(v)
+    for v_ in v.neighbours:
+        if not v_ in visited:
+            search_transitive_closure(v_, visited)
+
+    return visited
