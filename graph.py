@@ -98,11 +98,10 @@ class Graph:
 
     def regular(self):
         '''Checks if the graph is regular.'''
-        # pegamos um vértice aleatório e calculamos o seu grau
-        same_degree = len(self.random_vertex().neighbours)
+        common_degree = len(self.random_vertex().neighbours)
 
         for v in self.vertices.values():
-            if v.degree() != same_degree:
+            if v.degree() != common_degree:
                 return False
 
         return True
