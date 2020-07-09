@@ -109,10 +109,8 @@ class Graph:
     def complete(self):
         '''Checks if the graph is complete.'''
         for _, v in self.vertices.items():
-            for _, v_ in self.vertices.items():
-                # verificamos se um vértice i está ligado com todo os outros
-                # vértices j
-                if not v_ in v.neighbours and v != v_:
+            for _, other_v in self.vertices.items():
+                if v != other_v and other_v not in v.neighbours:
                     return False
 
         return True
