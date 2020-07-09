@@ -131,8 +131,12 @@ class Graph:
         return search_transitive_closure(v, visited)
 
     def connected(self):
-        '''Checks if the graph is connected.'''
-        trans = self.transitive_closure(self.random_vertex())
+        '''Checks if the graph is connected. An empty graph is considered
+        disconnected.'''
+        if not self.vertices:
+            return false
+
+        trans = self.transitive_closure(self.vertices[0])
         values = set(self.vertices.values())
         return len(trans ^ values) == 0
 
