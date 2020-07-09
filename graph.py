@@ -145,16 +145,18 @@ class Graph:
             visited: Set of already visited vertices.
         '''
         if v is None:
-            v = self.random_vertex()
+            v = self.vertices[0]
             return self.has_cycle(v, v, set())
+
         if v in visited:
             return True
 
         visited.add(v)
         for v_ in v.neighbours:
-            if v_ != prev:
-                return self.has_cycle(v_, v, visited)
+            if v_ != prev and self.has_cycle(v_, v, visited):
+                return True
         visited.remove(v)
+
         return False
 
     # Extra

@@ -177,6 +177,9 @@ def test_tree():
     assert not graph.tree()
 
     graph.unlink(2, 3)
+
+    assert graph.tree()
+
     graph.link(1, 2)
 
     assert not graph.tree()
